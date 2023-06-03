@@ -1,6 +1,6 @@
-# Universal OTP Tracker
+# Apmosys OTP Tracker
 ## About the Application:-
-The Universal OTP Tracker Application is a powerful tool designed to help users keep track of all their OTPs in one place. With this app, users can easily monitor and manage all their OTPs from the SMS box. The app automatically detects OTP-specific messages and sends the OTPs to a secure database for safekeeping. Users can then view all their OTPs in one place, making it easy to find and use them when needed. The app is user-friendly and easy to navigate, with a simple interface that allows users to quickly access their OTPs. Whether you're a busy professional or just someone who wants to stay organized, the universal OTP Tracker Application is the perfect solution for managing your OTPs.
+The Apmosys OTP Tracker Application is a powerful tool designed to help users keep track of all their OTPs in one place. With this app, users can easily monitor and manage all their OTPs from the SMS box. The app automatically detects OTP-specific messages and sends the OTPs to a secure database for safekeeping. Users can then view all their OTPs in one place, making it easy to find and use them when needed. The app is user-friendly and easy to navigate, with a simple interface that allows users to quickly access their OTPs. Whether you're a busy professional or just someone who wants to stay organized, the Apmosys OTP Tracker Application is the perfect solution for managing your OTPs.
 
 ## Code for Reading Messages from Message Box
 ### Necessary Permissions Required :-
