@@ -1,6 +1,7 @@
 package com.aurosaswat.universalotptracker
 
 
+import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,11 +15,13 @@ import com.aurosaswat.universalotptracker.databinding.ActivityMainBinding
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.credentials.HintRequest
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import java.util.regex.Pattern
 
 
 class MainActivity : AppCompatActivity() {
 
 //    private lateinit var viewBinding
+    private val REQ_USER_CONSENT = 200
     private lateinit var viewBinding: ActivityMainBinding
     private var intentFilter:IntentFilter?=null
     private var smsReceiver:SMSReceiver?=null
@@ -32,8 +35,7 @@ class MainActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
-        initSmsListener()
-        initBroadCast()
+
 //        ActivityCompat.requestPermissions(this,
 //            arrayOf("android.permission.READ_SMS"), PackageManager.PERMISSION_GRANTED)
 //
@@ -57,35 +59,60 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initSmsListener() {
+    private fun startSmartUserConsent() {
         val client = SmsRetriever.getClient(this)
-        client.startSmsRetriever()
+        client.startSmsUserConsent(null)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
 
-    private fun initBroadCast(){
-        intentFilter= IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
-        smsReceiver= SMSReceiver()
-        smsReceiver?.setOTPListener(object :SMSReceiver.OTPReceiveListener{
-            override fun onOTPReceived(otp: String?) {
-                Toast.makeText(this@MainActivity,"OTP is $otp",Toast.LENGTH_SHORT).show()
+        val message = data?.getStringExtra(SmsRetriever.EXTRA_SMS_MESSAGE)
+        getOtpFromMessage(message)
+
+
+
+    }
+
+    private fun getOtpFromMessage(message: String?) {
+        val otpPatter = Pattern.compile("(|^)\\d{6}")
+        val matcher = otpPatter.matcher(message)
+        if (matcher.find()){
+
+            viewBinding.showSms!!.setText(matcher.group(0))
+
+        }
+    }
+
+    private fun registerBroadcastReceiver() {
+
+        smsReceiver = SMSReceiver()
+        smsReceiver!!.smsBroadcastReceiverListener =
+            object : SMSReceiver.SmsBroadcasrReceiverListener {
+                override fun onSuccess(intent: Intent?) {
+                    startActivityForResult(intent!!, REQ_USER_CONSENT)
+                }
+
+                override fun onFailure() {
+                    TODO("Not yet implemented")
+                }
+
             }
-        })
-    }
-
-    override fun onResume() {
-        super.onResume()
+        val intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         registerReceiver(smsReceiver,intentFilter)
     }
 
-    override fun onPause() {
-        super.onPause()
-        unregisterReceiver(smsReceiver)
+
+
+    override fun onStart() {
+        super.onStart()
+        registerBroadcastReceiver()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        smsReceiver=null
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(smsReceiver!!)
     }
+
 
 }

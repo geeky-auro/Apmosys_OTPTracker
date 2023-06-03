@@ -10,37 +10,35 @@ import javax.net.ssl.SSLEngineResult.Status
 
 class SMSReceiver : BroadcastReceiver() {
 
-    // Creation of SMS Broadcase Receiver to receive the message
 
-    private var otpListener:OTPReceiveListener?=null
-
-    interface OTPReceiveListener {
-        fun onOTPReceived(otp: String?)
+    interface SmsBroadcasrReceiverListener {
+        fun onSuccess(intent:Intent?)
+        fun onFailure()
     }
 
-    fun setOTPListener(otpListener: OTPReceiveListener?) {
-        this.otpListener = otpListener
-    }
+
+    var smsBroadcastReceiverListener:SmsBroadcasrReceiverListener?=null
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        if(intent?.action==SmsRetriever.SMS_RETRIEVED_ACTION){
-            val extras=intent.extras
-            val status=extras!![SmsRetriever.EXTRA_STATUS] as Status?
-            when(status!!.ordinal){
-                CommonStatusCodes.SUCCESS->{
-                    val sms=extras[SmsRetriever.EXTRA_SMS_MESSAGE] as String?
-                    sms?.let {
-                        val p=Pattern.compile("\\d+")
-                        val m=p.matcher(it)
-                        if (m.find()){
-                            val otp=m.group()
-                            if(otpListener!=null){
-                                otpListener!!.onOTPReceived(otp)
-                            }
-                        }
-                    }
+        if  (SmsRetriever.SMS_RETRIEVED_ACTION == intent?.action){
+
+            val extras = intent.extras
+            val smsRetrieverStatus = extras?.get(SmsRetriever.EXTRA_STATUS) as com.google.android.gms.common.api.Status
+
+            when(smsRetrieverStatus.statusCode){
+
+                CommonStatusCodes.SUCCESS ->{
+                    val messageIntent = extras.getParcelable<Intent>(SmsRetriever.EXTRA_CONSENT_INTENT)
+                    smsBroadcastReceiverListener?.onSuccess(messageIntent)
+                }
+                CommonStatusCodes.TIMEOUT -> {
+                    smsBroadcastReceiverListener?.onFailure()
+
                 }
             }
+
         }
     }
+
+
 }
