@@ -19,11 +19,9 @@ import java.util.regex.Pattern
 
 
 class MainActivity : AppCompatActivity() {
-
 //    private lateinit var viewBinding
     private val REQ_USER_CONSENT = 200
     private lateinit var viewBinding: ActivityMainBinding
-    private var intentFilter:IntentFilter?=null
     private var smsReceiver:SMSReceiver?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,10 +54,11 @@ class MainActivity : AppCompatActivity() {
 //            Toast.makeText(this@MainActivity,"Please Allow Notifications Manually",Toast.LENGTH_SHORT).show();
 //        }
 //
-
+        startSmartUserConsent()
     }
 
     private fun startSmartUserConsent() {
+        // Mark this Line ;)
         val client = SmsRetriever.getClient(this)
         client.startSmsUserConsent(null)
     }
@@ -76,10 +75,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun getOtpFromMessage(message: String?) {
         val otpPatter = Pattern.compile("(|^)\\d{6}")
-        val matcher = otpPatter.matcher(message)
-        if (matcher.find()){
+        val matcher = message?.let { otpPatter.matcher(it) }
+        if (matcher!!.find()){
 
-            viewBinding.showSms!!.setText(matcher.group(0))
+            viewBinding.showSms.text = matcher.group(0)
 
         }
     }
@@ -94,7 +93,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure() {
-                    TODO("Not yet implemented")
                 }
 
             }
