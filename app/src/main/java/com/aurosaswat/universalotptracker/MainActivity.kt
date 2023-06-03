@@ -34,26 +34,26 @@ class MainActivity : AppCompatActivity() {
         )
         initSmsListener()
         initBroadCast()
-        ActivityCompat.requestPermissions(this,
-            arrayOf("android.permission.READ_SMS"), PackageManager.PERMISSION_GRANTED)
-
-        if (ContextCompat.checkSelfPermission(this, "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
-            viewBinding.showSms.text=""
-            val uri = Uri.parse("content://sms")
-            val cursor = contentResolver.query(uri, null, null, null, null)
-
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    val body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
-                    val address = cursor.getString(cursor.getColumnIndexOrThrow("address"))
-                    viewBinding.showSms.append(address)
-
-                } while (cursor.moveToNext())
-            }
-        } else {
-            Toast.makeText(this@MainActivity,"Please Allow Notifications Manually",Toast.LENGTH_SHORT).show();
-        }
-
+//        ActivityCompat.requestPermissions(this,
+//            arrayOf("android.permission.READ_SMS"), PackageManager.PERMISSION_GRANTED)
+//
+//        if (ContextCompat.checkSelfPermission(this, "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
+//            viewBinding.showSms.text=""
+//            val uri = Uri.parse("content://sms")
+//            val cursor = contentResolver.query(uri, null, null, null, null)
+//
+//            if (cursor != null && cursor.moveToFirst()) {
+//                do {
+//                    val body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
+//                    val address = cursor.getString(cursor.getColumnIndexOrThrow("address"))
+//                    viewBinding.showSms.append(address)
+//
+//                } while (cursor.moveToNext())
+//            }
+//        } else {
+//            Toast.makeText(this@MainActivity,"Please Allow Notifications Manually",Toast.LENGTH_SHORT).show();
+//        }
+//
 
     }
 
