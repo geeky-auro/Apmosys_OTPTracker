@@ -16,15 +16,18 @@ class OTPAdapter(private val mlists:List<ItemsViewmodel>): RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-       val view=LayoutInflater.from(parent.context).inflate(R.layout.contact_otp,parent)
+       val view=LayoutInflater.from(parent.context).inflate(R.layout.contact_otp,parent,false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+       val itemsViewModel=mlists[position]
+        holder.sender_text.text=itemsViewModel.sender
+        holder.otp.text=itemsViewModel.otp
+
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return mlists.size
     }
 }

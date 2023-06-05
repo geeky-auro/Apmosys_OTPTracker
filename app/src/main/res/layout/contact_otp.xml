@@ -25,7 +25,7 @@
                 android:textSize="18dp"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:fontFamily="@font/josefin_extra_bold"
+                android:fontFamily="sans-serif-condensed"
                 android:layout_marginBottom="5sp"
                 android:layout_marginStart="5sp"
                 android:layout_marginEnd="5sp"

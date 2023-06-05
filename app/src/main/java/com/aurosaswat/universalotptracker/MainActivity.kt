@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.credentials.HintRequest
 import com.google.android.gms.auth.api.phone.SmsRetriever
@@ -35,7 +37,8 @@ class MainActivity : AppCompatActivity() {
 
         ActivityCompat.requestPermissions(this,
             arrayOf("android.permission.READ_SMS"), PackageManager.PERMISSION_GRANTED)
-
+        val data = ArrayList<ItemsViewmodel>()
+        val recyclerView=findViewById<RecyclerView>(R.id.recycler_view)
         if (ContextCompat.checkSelfPermission(this, "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
 
             val uri = Uri.parse("content://sms")
@@ -45,8 +48,8 @@ class MainActivity : AppCompatActivity() {
                 do {
                     val body = cursor.getString(cursor.getColumnIndexOrThrow("body"))
                     val address = cursor.getString(cursor.getColumnIndexOrThrow("address"))
-                   if (body.contains("OTP",ignoreCase = true)){
-
+                    if (address.contains("OTP",ignoreCase = true) || address.contains("otp") || body.contains("OTP") || body.contains("otp")){
+                    data.add(ItemsViewmodel(body,address))
                    }
 
                 } while (cursor.moveToNext())
@@ -54,8 +57,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this@MainActivity,"Please Allow Notifications Manually",Toast.LENGTH_SHORT).show();
         }
+        recyclerView.layoutManager=LinearLayoutManager(this)
+        val adapter=OTPAdapter(data)
+        recyclerView.adapter=adapter
 
-//        startSmartUserConsent()
+
     }
 
 //    private fun startSmartUserConsent() {
