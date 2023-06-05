@@ -41,7 +41,7 @@
                 android:textStyle="bold"
                 android:layout_marginBottom="5sp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/josefi_extra_bold"></TextView>
+                android:fontFamily="cursive"></TextView>
 
         </LinearLayout>
 
