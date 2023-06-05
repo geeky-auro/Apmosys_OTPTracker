@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:backgroundTint="#FDE9E9"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sender's Name"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:fontFamily="@font/josefin_extra_bold"
+                android:layout_marginBottom="5sp"
+                android:layout_marginStart="5sp"
+                android:layout_marginEnd="5sp"
+                android:layout_marginTop="5sp" />
+
+            <TextView
+                android:id="@+id/otp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="168994"
+                android:layout_marginStart="5sp"
+                android:layout_marginEnd="5sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="5sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/josefi_extra_bold"></TextView>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>
